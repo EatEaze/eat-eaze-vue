@@ -1,26 +1,53 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="order-page">
+    <HeaderComp />
+    <div class="food-card-container">
+      <FoodCard v-for="foodItem in foodItems" :key="foodItem.id" :item="foodItem" />
+    </div>
+    <FooterComponent />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderComp from "@/components/HeaderComp.vue";
+import FoodCard from "@/components/FoodCard.vue";
+import FooterComponent from "@/components/FooterComponent.vue";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    HeaderComp,
+    FoodCard,
+    FooterComponent,
+  },
+  data() {
+    return {
+      foodItems: [
+    
+      ]
+    };
+  },
+};
 </script>
+<style scoped>
+.order-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px; /* Добавьте внутренний отступ контенту */
+}
+
+.food-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px; /* Добавьте отступ между карточками и хедером */
+  margin-bottom: 20px; /* Добавьте отступ между карточками и футером */
 }
 </style>
