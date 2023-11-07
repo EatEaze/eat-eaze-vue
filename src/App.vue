@@ -26,7 +26,7 @@ export default {
     };
   },
   mounted() {
-    axios.get('http://localhost/positions')
+    axios.get('http://localhost/api/Positions/positions')
       .then(responce => {
         this.positions = responce.data;
       })
