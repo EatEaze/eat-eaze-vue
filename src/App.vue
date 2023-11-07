@@ -2,7 +2,7 @@
   <div class="order-page">
     <HeaderComp />
     <div class="food-card-container">
-      <FoodCard v-for="foodItem in foodItems" :key="foodItem.id" :item="foodItem" />
+      <FoodCard v-for="foodItem in foodItems" :key="foodItem.PositionId" :position="foodItem" />
     </div>
     <FooterComponent />
   </div>
@@ -12,6 +12,7 @@
 import HeaderComp from "@/components/HeaderComp.vue";
 import FoodCard from "@/components/FoodCard.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -21,11 +22,18 @@ export default {
   },
   data() {
     return {
-      foodItems: [
-    
-      ]
+      foodItems: []
     };
   },
+  mounted() {
+    axios.get('http://localhost/positions')
+      .then(responce => {
+        this.positions = responce.data;
+      })
+      .catch(error => {
+        console.error(error)
+      });
+  }
 };
 </script>
 <style scoped>
@@ -35,7 +43,6 @@ export default {
   height: 100vh;
   width: 100%;
 }
-
 .content {
   flex-grow: 1;
   overflow-y: auto;

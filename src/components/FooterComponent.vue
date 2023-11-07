@@ -2,9 +2,9 @@
     <footer>
       <p>&copy; 2023 Eat Eaze Delivery</p>
     </footer>
-  </template>
+</template>
     
-  <style scoped>
+<style scoped>
 footer {
   background-color: #6a0dad; /* Фиолетовый цвет для футера */
   text-align: center;

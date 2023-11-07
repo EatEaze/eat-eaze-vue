@@ -1,21 +1,23 @@
 <template>
-    <div class="food-card">
-      <img :src="item.image" alt="Food" width="150" height="200"/>
-      <h3>{{ item.name }}</h3>
-      <button class="order-button">{{ item.price }}</button>
-    </div>
-  </template>
+  <div class="position-card">
+    <img :src="position.ImageURL" alt="Position Image" />
+    <h3>{{ position.PositionName }}</h3>
+    <p>Цена: {{ position.Count }}</p>
+    <p>Категория: {{ position.Category.CategoryName }}</p>
+    <p>Ресторан: {{ position.Restaraunt.RestaurantName }}</p>
+  </div>
+</template>
   
-  <script>
+<script>
   export default {
     props: {
-      item: Object,
+      position: Object,
     },
   };
-  </script>
+</script>
   
   <style scoped>
-  .food-card {
+  .position-card {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
