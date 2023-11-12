@@ -25,10 +25,11 @@ export default {
       foodItems: []
     };
   },
-  mounted() {
-    axios.get('http://localhost/api/Positions/positions')
+  created() {
+    axios.get('https://localhost:7242/api/Positions/positions')
       .then(responce => {
-        this.positions = responce.data;
+        this.foodItems = responce.data;
+        console.log(this.foodItems);
       })
       .catch(error => {
         console.error(error)

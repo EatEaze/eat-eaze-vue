@@ -1,10 +1,7 @@
 <template>
   <div class="position-card">
-    <img :src="position.ImageURL" alt="Position Image" />
-    <h3>{{ position.PositionName }}</h3>
-    <p>Цена: {{ position.Count }}</p>
-    <p>Категория: {{ position.Category.CategoryName }}</p>
-    <p>Ресторан: {{ position.Restaraunt.RestaurantName }}</p>
+    <img :src="position.imageURL" alt="Position Image" height="300" width="300" />
+    <h3>{{ position.positionName }}</h3>
   </div>
 </template>
   
