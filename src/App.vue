@@ -22,8 +22,15 @@ export default {
   },
   data() {
     return {
-      foodItems: []
+      selectedRestaraunt: null,
+      foodItems: [],
+      restaraunts: []
     };
+  },
+  methods: {
+    fetchDishesByRestaurant() {
+
+    } 
   },
   created() {
     axios.get('https://localhost:7242/api/Positions/positions')
@@ -34,28 +41,29 @@ export default {
       .catch(error => {
         console.error(error)
       });
-  }
+  },
+  
 };
 </script>
+
 <style scoped>
-.order-page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.content {
-  flex-grow: 1;
-  overflow-y: auto;
-  padding: 20px; /* Добавьте внутренний отступ контенту */
+
+.order-page {
+font-family: 'Your Chosen Font', sans-serif; /* Замените 'Your Chosen Font' на выбранный вами шрифт */
+background-color: #ecf0f1; /* Цвет фона */
+color: #333; /* Цвет текста */
 }
 
 .food-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px; /* Добавьте отступ между карточками и хедером */
-  margin-bottom: 20px; /* Добавьте отступ между карточками и футером */
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 10px;
+padding: 20px;
 }
 </style>

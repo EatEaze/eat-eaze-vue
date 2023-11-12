@@ -6,11 +6,17 @@
     
   <style scoped>
 header {
-  background-color: #6a0dad; /* Фиолетовый цвет для хедера */
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  width: 100%; /* Занимать всю ширину экрана */
+background-color: #3498db; /* Цвет фона */
+color: #fff; /* Цвет текста */
+padding: 20px;
+text-align: center;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень */
+}
+
+h1 {
+margin: 0;
+font-family: 'Your Chosen Font', sans-serif; /* Замените 'Your Chosen Font' на выбранный вами шрифт */
+font-size: 32px;
 }
 </style>
   
