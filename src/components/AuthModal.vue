@@ -1,14 +1,16 @@
 <template>
     <div class="auth-modal">
-      <div class="auth-modal-content">
-        <!-- Здесь разместите содержимое вашего окна авторизации -->
-        <!-- Например, поля ввода логина и пароля, кнопка входа и т.д. -->
-        <button class="close-button" @click="closeModal">&times;</button>
-        <h2>Авторизация</h2>
-        <input type="text" placeholder="Логин" v-model="username" />
-        <input type="password" placeholder="Пароль" v-model="password" />
-        <button @click="login">Войти</button>
-      </div>
+      <transition name="fade">
+        <div class="auth-modal-content">
+          <button class="close-button" @click="closeModal">&times;</button>
+          <h2>Авторизация</h2>
+          <div class="input-container">
+            <input type="text" placeholder="Логин" v-model="username" />
+            <input type="password" placeholder="Пароль" v-model="password" />
+          </div>
+          <button class="auth-button" @click="login">Войти</button>
+        </div>
+      </transition>
     </div>
   </template>
   
@@ -33,7 +35,7 @@
     }
   };
   </script>
-  
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
   <style scoped>
   .auth-modal {
     display: flex;
@@ -52,10 +54,11 @@
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
   }
 
   .auth-modal input {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   margin-bottom: 30px;
   border: 1px solid #ccc;
@@ -65,12 +68,28 @@
 .auth-modal button {
   background-color: #3498db;
   color: #fff;
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease-in-out;
+}
+
+h2 {
+  color: #3498db;
+}
+
+.auth-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin-left: 50px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
 }
 
 .auth-modal button:hover {

@@ -2,6 +2,7 @@
   <div class="position-card">
   <img :src="position.imageURL" alt="Position Image" class="flat-image" />
   <h3 class="flat-title">{{ position.positionName }}</h3>
+  <h3 class="flat-price">{{ position.price  }} руб.</h3>
   <button class="flat-button">Добавить в корзину</button>
   </div>
 </template>
@@ -29,14 +30,19 @@ transition: transform 0.2s ease-in-out;
 }
 
 .flat-image {
-height: 250px;
-width: 250px;
+height: 200px;
+width: 200px;
 border-radius: 8px;
 margin-bottom: 10px;
 }
 
 .flat-title {
 font-size: 1.3rem;
+margin-bottom: 10px;
+}
+
+.flat-price {
+  font-size: 1rem;
 margin-bottom: 10px;
 }
 
