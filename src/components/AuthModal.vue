@@ -1,63 +1,77 @@
 <template>
-    <div class="auth-modal">
-      <transition name="fade">
-        <div class="auth-modal-content">
-          <button class="close-button" @click="closeModal">&times;</button>
-          <h2>Авторизация</h2>
-          <div class="input-container">
-            <input type="text" placeholder="Логин" v-model="username" />
-            <input type="password" placeholder="Пароль" v-model="password" />
-          </div>
-          <button class="auth-button" @click="login">Войти</button>
+  <div class="auth-modal">
+    <transition name="fade">
+      <div class="auth-modal-content">
+        <button class="close-button" @click="closeModal">&times;</button>
+        <h2>Авторизация</h2>
+        <div class="input-container">
+          <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }" />
+          <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password" :class="{ 'error': passwordError }" />
         </div>
-      </transition>
-    </div>
-  </template>
+        <button class="auth-button" @click="validateAndLogin">Войти</button>
+      </div>
+    </transition>
+  </div>
+</template>
   
-  <script>
-  export default {
-    data() {
-      return {
-        username: '',
-        password: ''
-      };
-    },
-    methods: {
-      login() {
-        // Здесь можно добавить логику для обработки входа
-        // Например, отправка данных на сервер для аутентификации
-        // В данном примере просто закрываем модальное окно
-        this.$emit('close');
-      },
-      closeModal() {
-        this.$emit('close');
-        }
-    }
-  };
-  </script>
-  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
-  <style scoped>
-  .auth-modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
-  }
-  
-  .auth-modal-content {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    position: relative;
-  }
+<script>
+export default {
+  data() {
+    return {
+      username: '',
+      password: '',
+      usernameError: false,
+      passwordError: false,
+      showPassword: false
+    };
+  },
+  methods: {
+    validateAndLogin() {
+      // Валидация полей
+      this.usernameError = this.username.trim() === '';
+      this.passwordError = this.password.trim() === '';
 
-  .auth-modal input {
+      // Если поля валидны, выполнить вход
+      if (!this.usernameError && !this.passwordError) {
+        this.login();
+      }
+    },
+    login() {
+      // Здесь можно добавить логику для обработки входа
+      // Например, отправка данных на сервер для аутентификации
+      // В данном примере просто закрываем модальное окно
+      this.$emit('close');
+    },
+    closeModal() {
+      this.$emit('close');
+    }
+  }
+};
+</script>
+  
+<style scoped>
+.auth-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Полупрозрачный фон */
+}
+
+.auth-modal-content {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.auth-modal input {
   width: 80%;
   padding: 10px;
   margin-bottom: 30px;
@@ -95,4 +109,9 @@ h2 {
 .auth-modal button:hover {
   background-color: #2980b9;
 }
-  </style>
+
+.auth-modal input.error {
+  border-color: red;
+}
+
+</style>
