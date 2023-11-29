@@ -7,6 +7,7 @@
         <div class="input-container">
           <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }" />
           <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password" :class="{ 'error': passwordError }" />
+          <!--<button class="reg-button" @click="openRegistration">Зарегистрироваться</button>-->
         </div>
         <button class="auth-button" @click="validateAndLogin">Войти</button>
       </div>
@@ -30,20 +31,20 @@ export default {
       // Валидация полей
       this.usernameError = this.username.trim() === '';
       this.passwordError = this.password.trim() === '';
-
-      // Если поля валидны, выполнить вход
+      
       if (!this.usernameError && !this.passwordError) {
         this.login();
       }
     },
     login() {
-      // Здесь можно добавить логику для обработки входа
-      // Например, отправка данных на сервер для аутентификации
-      // В данном примере просто закрываем модальное окно
+      // todo: связать с бэкэндом
       this.$emit('close');
     },
     closeModal() {
       this.$emit('close');
+    },
+    openRegistration() {
+      
     }
   }
 };
@@ -113,5 +114,4 @@ h2 {
 .auth-modal input.error {
   border-color: red;
 }
-
 </style>
