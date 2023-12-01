@@ -1,9 +1,13 @@
 <template>
   <div class="position-card">
-  <img :src="position.imageURL" alt="Position Image" class="flat-image" />
-  <h3 class="flat-title">{{ position.positionName }}</h3>
-  <h3 class="flat-price">{{ position.price  }} руб.</h3>
-  <button class="flat-button">Добавить в корзину</button>
+    <img :src="position.imageURL" alt="Position Image" class="flat-image" />
+    <h3 class="flat-title">{{ position.positionName }}</h3>
+    <h3 class="flat-price">{{ position.price  }} руб.</h3>
+    <div class="categoty-restaraunt">
+      <h5 class=""> {{ position.categoryName }} </h5>
+      <h5> {{ position.restarauntName }} </h5>
+    </div>
+    <button class="flat-button">Добавить в корзину</button>
   </div>
 </template>
   
@@ -62,6 +66,17 @@ margin-bottom: 5px;
 .flat-button:hover {
 background-color: #2980b9;
 
+}
+
+.category-restaraunt {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.category-restaraunt h2 {
+  font-size: 1rem;
+  margin: 0;
 }
 </style>
   
