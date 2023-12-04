@@ -1,5 +1,5 @@
 <template>
-    <div class="restaurant-filter">
+    <div class="categories-filter">
       <label for="categoriesSelect">Выберите категорию:</label>
       <select v-model="selectedCategory" @change="filterByCategory">
         <option value="" disabled>Выберите категорию</option>
