@@ -1,8 +1,6 @@
 <template>
   <div class="order-page">
     <HeaderComp />
-    <RestarauntsFilter :restaraunts="restaraunts" @filterByRestaurant="fetchDishesByRestaurant"/>
-    <CategoriesFilter :categories="categories" @filterByCategory="fetchDishesByCategories" />
     <div class="food-card-container">
       <FoodCard v-for="foodItem in foodItems" :key="foodItem.PositionId" :position="foodItem" />
     </div>
