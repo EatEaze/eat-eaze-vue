@@ -6,7 +6,8 @@
         <h2>Авторизация</h2>
         <div class="input-container">
           <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }" />
-          <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password" :class="{ 'error': passwordError }" />
+          <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password"
+            :class="{ 'error': passwordError }" />
           <!--<button class="reg-button" @click="openRegistration">Зарегистрироваться</button>-->
         </div>
         <button class="auth-button" @click="validateAndLogin">Войти</button>
@@ -31,7 +32,7 @@ export default {
       // Валидация полей
       this.usernameError = this.username.trim() === '';
       this.passwordError = this.password.trim() === '';
-      
+
       if (!this.usernameError && !this.passwordError) {
         this.login();
       }
@@ -44,7 +45,7 @@ export default {
       this.$emit('close');
     },
     openRegistration() {
-      
+
     }
   }
 };

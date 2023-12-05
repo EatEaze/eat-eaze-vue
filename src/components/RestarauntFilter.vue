@@ -7,13 +7,11 @@
 </template>
 
 <script>
-    export default {
-        props: {
+export default {
+    props: {
         restaurant: Object,
-        },
-    };
+    },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
