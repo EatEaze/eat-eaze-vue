@@ -28,11 +28,7 @@
 </template>
   
 <script>
-//import {v4 as uuidv4} from 'uuid';
-import mitt from 'mitt';
 import axios from 'axios';
-
-const emitter = mitt();
 
 export default {
   data() {
@@ -90,7 +86,7 @@ export default {
           // Сохранение токена в localStorage или другом хранилище
           localStorage.setItem('token', response.data.token);
 
-          emitter.emit('authentificated')
+          this.$emit('authenticated');
 
           // Закрытие модального окна
           this.$emit('close');

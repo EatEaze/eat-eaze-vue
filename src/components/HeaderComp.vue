@@ -10,16 +10,12 @@
         </button>
       </div>
     </div>
-    <auth-modal v-if="isAuthModalVisible" @close="hideAuthModal" />
+    <auth-modal v-if="isAuthModalVisible" @authenticated="onAuthenticated" @close="hideAuthModal" />
   </header>
 </template>
     
 <script>
 import AuthModal from './AuthModal.vue';
-//import mitt from 'mitt';
-
-// Create an emitter instance
-//const emitter = mitt();
 
 export default {
   components: {
@@ -38,11 +34,19 @@ export default {
     hideAuthModal() {
       this.isAuthModalVisible = false;
     },
+    handleLogined() {
+      this.isAuthenticated = true;
+    },
     logout() {
       localStorage.removeItem('token');
       this.isAuthenticated = false;
-    }
+    },
+    onAuthenticated() {
+    console.log(this.isAuthenticated)
+    // Обработка события authenticated
+    this.isAuthenticated = true;
   },
+  }
 };
 </script>
 

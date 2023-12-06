@@ -25,7 +25,8 @@ export default {
     return {
       showErrorModal: false,
       errorMessage: "",
-    };
+    }
+
   },
   methods: {
     addToCart() {
@@ -33,6 +34,7 @@ export default {
       if (localStorage.getItem('token') === null) {
         this.showErrorModal = true;
         this.errorMessage = "Для добавления в корзину необходимо авторизоваться.";
+        //this.$emit('showErrorModal', true, "Для добавления в корзину необходимо авторизоваться.");
       } else {
         // Логика добавления в корзину
         // ...

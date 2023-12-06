@@ -32,7 +32,7 @@ export default {
       selectedCategory: null,
       foodItems: [],
       restaraunts: [],
-      categories: [],
+      categories: []
     };
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
         .catch(error => {
           console.error(error);
         });
-    }
+    },
 
   },
   created() {
