@@ -10,7 +10,7 @@
         </button>
       </div>
     </div>
-    <auth-modal v-if="isAuthModalVisible" @authenticated="onAuthenticated" @close="hideAuthModal" />
+    <auth-modal v-if="isAuthModalVisible" @authentificated="onAuthenticated" @close="hideAuthModal" />
   </header>
 </template>
     
@@ -43,7 +43,6 @@ export default {
     },
     onAuthenticated() {
     console.log(this.isAuthenticated)
-    // Обработка события authenticated
     this.isAuthenticated = true;
   },
   }

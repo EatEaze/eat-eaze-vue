@@ -1,27 +1,30 @@
 <template>
-  <div class="auth-modal">
+  <div class="auth-modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 text-black">
     <transition name="fade">
-      <div v-if="isLogining" class="auth-modal-content">
-        <button class="close-button" @click="closeModal">&times;</button>
-        <h2>Авторизация</h2>
-        <div class="input-container">
-          <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }" />
+      <div v-if="isLogining" class="auth-modal-content bg-white p-8 rounded-md shadow-md relative">
+        <button class="close-button absolute top-0 right-0 p-4" @click="closeModal">&times;</button>
+        <h2 class="text-2xl font-bold mb-4">Авторизация</h2>
+        <div class="input-container mb-4 ">
+          <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }"
+            class="w-full p-2 border border-gray-300 rounded mb-2 bg-gray-100" />
           <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password"
-            :class="{ 'error': passwordError }" />
-          <button @click="changeIsLoginig">Еще нет аккаунта?</button>
+            :class="{ 'error': passwordError }" class="w-full p-2 border border-gray-300 rounded mb-2 bg-gray-100" />
+          <button @click="changeIsLoginig" class="text-blue-500">Еще нет аккаунта?</button>
         </div>
-        <button class="auth-button" @click="validateAndLogin">Войти</button>
+        <button class="auth-button bg-blue-500 text-white py-2 px-4 rounded" @click="validateAndLogin">Войти</button>
       </div>
-      <div v-else class="auth-modal-content">
-        <button class="close-button" @click="closeModal">&times;</button>
-        <h2>Регистрация</h2>
-        <div class="input-container">
-          <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }" />
+      <div v-else class="auth-modal-content bg-white p-8 rounded-md shadow-md relative">
+        <button class="close-button absolute top-0 right-0 p-4" @click="closeModal">&times;</button>
+        <h2 class="text-2xl font-bold mb-4">Регистрация</h2>
+        <div class="input-container mb-4">
+          <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }"
+            class="w-full p-2 border border-gray-300 rounded mb-2 bg-gray-100" />
           <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password"
-            :class="{ 'error': passwordError }" />
-          <button @click="changeIsLoginig">Есть аккаунт?</button>
+            :class="{ 'error': passwordError }" class="w-full p-2 border border-gray-300 rounded mb-2 bg-gray-100" />
+          <button @click="changeIsLoginig" class="text-blue-500">Есть аккаунт?</button>
         </div>
-        <button class="auth-button" @click="registrate">Зарегистрироваться</button>
+        <button class="auth-button bg-blue-500 text-white py-2 px-4 rounded"
+          @click="validateAndRegister">Зарегистрироваться</button>
       </div>
     </transition>
   </div>
@@ -50,6 +53,14 @@ export default {
     changeIsLoginig() {
       this.isLogining = !this.isLogining
     },
+    validateAndRegister() {
+      this.usernameError = this.username.trim() === '';
+      this.passwordError = this.password.trim() === '';
+
+      if (!this.usernameError && !this.passwordError) {
+        this.registrate();
+      }
+    },
     async registrate() {
       this.user.login = this.username
       this.user.password = this.password
@@ -58,11 +69,9 @@ export default {
         if (response.status !== 200) {
           console.log("registration error")
         }
-        else {
-          this.user.login = ""
-          this.user.password = ""
-          this.changeIsLoginig()
-        }
+        this.user.login = ""
+        this.user.password = ""
+        this.changeIsLoginig()
       } catch (error) {
         // Обработка ошибок при запросе
         console.error('An error occurred during authentication:', error);
@@ -86,7 +95,7 @@ export default {
           // Сохранение токена в localStorage или другом хранилище
           localStorage.setItem('token', response.data.token);
 
-          this.$emit('authenticated');
+          this.$emit('authentificated')
 
           // Закрытие модального окна
           this.$emit('close');
@@ -105,69 +114,11 @@ export default {
   }
 };
 </script>
-  
-<style scoped>
-.auth-modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Полупрозрачный фон */
-}
 
-.auth-modal-content {
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
-.auth-modal input {
-  width: 80%;
-  padding: 10px;
-  margin-bottom: 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.auth-modal button {
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease-in-out;
-}
-
-h2 {
-  color: #3498db;
-}
-
-.auth-modal .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  margin-left: 50px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #333;
-}
-
-.auth-modal button:hover {
-  background-color: #2980b9;
-}
-
-.auth-modal input.error {
+<style>
+.error {
   border-color: red;
 }
 </style>
+
+  
