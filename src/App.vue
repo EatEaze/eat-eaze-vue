@@ -1,5 +1,5 @@
 <template>
-  <div class="order-page min-h-screen bg-gray-100">
+  <div class="order-page flex flex-col min-h-screen bg-gray-100">
     <HeaderComp class="mb-4" />
 
     <!-- Flex container для CategoriesFilter1 и SearchBar с отступом сверху -->
@@ -8,7 +8,7 @@
       <SearchBar @searchDishes="searchDishesByName" />
     </div>
 
-    <div class="food-card-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div class="food-card-container flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
       <!-- Пример использования grid с колонками, зависящими от размера экрана -->
       <FoodCard v-for="foodItem in foodItems" :key="foodItem.PositionId" :position="foodItem" />
     </div>
@@ -16,6 +16,7 @@
     <FooterComponent class="mt-4" />
   </div>
 </template>
+
 
 <script>
 import HeaderComp from "@/components/HeaderComp.vue";

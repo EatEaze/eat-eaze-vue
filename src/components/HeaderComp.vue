@@ -1,19 +1,19 @@
 <template>
-  <header>
-    <div class="header-content">
-      <h1>Eat Eaze Delivery</h1>
-      <div class="footer-buttons">
-        <button v-if="!isAuthenticated" class="auth-button" @click="showAuthModal">Авторизоваться</button>
-        <button v-else class="auth-button" @click="logout">Выйти</button>
-        <button class="cart-button">
-          <img src="https://www.svgrepo.com/show/34974/shopping-cart.svg" alt="Корзина" />
+  <header class="bg-blue-500 p-4 text-white">
+    <div class="header-content flex justify-between items-center container mx-auto">
+      <h1 class="text-2xl font-bold ml-0 transition duration-300 ease-in-out transform hover:scale-105">Eat Eaze Delivery</h1>
+      <div class="footer-buttons flex items-center space-x-6">
+        <button v-if="!isAuthenticated" class="auth-button px-4 py-2 bg-white text-blue-500 rounded-full border border-blue-500 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-105" @click="showAuthModal">Авторизоваться</button>
+        <button v-else class="auth-button px-4 py-2 bg-white text-blue-500 rounded-full border border-blue-500 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-105" @click="logout">Выйти</button>
+        <button class="cart-button p-3 bg-white rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+          <img src="https://www.svgrepo.com/show/34974/shopping-cart.svg" alt="Корзина" class="w-6 h-6" />
         </button>
       </div>
     </div>
     <auth-modal v-if="isAuthModalVisible" @authentificated="onAuthenticated" @close="hideAuthModal" />
   </header>
 </template>
-    
+
 <script>
 import AuthModal from './AuthModal.vue';
 
@@ -49,61 +49,7 @@ export default {
 };
 </script>
 
-<style scoped>
-header {
-  background-color: #3498db;
-  /* Цвет фона */
-  color: #fff;
-  /* Цвет текста */
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Тень */
-}
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-h1 {
-  margin: 0;
-  font-family: 'Your Chosen Font', sans-serif;
-  /* Замените 'Your Chosen Font' на выбранный вами шрифт */
-  font-size: 32px;
-}
-
-.footer-buttons {
-  display: flex;
-}
-
-.auth-button,
-.cart-button {
-  font-family: 'Trebuchet MS';
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin-left: 10px;
-  padding: 5px 10px;
-  font-size: 18px;
-  color: #fff;
-  transition: color 0.3s ease-in-out;
-}
-
-.auth-button:hover {
-  color: #34dbcb;
-}
-
-.cart-button:hover {
-  transform: scale(1.05);
-  /* Цвет при наведении */
-}
-
-.cart-button img {
-  width: 50px;
-  /* Замените на размер вашей картинки корзины */
-}</style>
   
   
   
