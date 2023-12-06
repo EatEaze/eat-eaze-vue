@@ -1,8 +1,7 @@
 <template>
   <div class="order-page">
     <HeaderComp />
-    <RestarauntsFilter :restaraunts="restaraunts" @filterByRestaurant="fetchDishesByRestaurant" />
-    <CategoriesFilter :categories="categories" @filterByCategory="fetchDishesByCategories" />
+    <CategoriesFilter1 :categories="categories" @filterByRestaurant="fetchDishesByRestaurant"/>
     <SearchBar @searchDishes="searchDishesByName" />
     <div class="food-card-container">
       <FoodCard v-for="foodItem in foodItems" :key="foodItem.PositionId" :position="foodItem" />
@@ -15,9 +14,8 @@
 import HeaderComp from "@/components/HeaderComp.vue";
 import FoodCard from "@/components/FoodCard.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-import RestarauntsFilter from "@/components/RestarauntsFilter.vue";
-import CategoriesFilter from "./components/CategoriesFilter.vue";
 import SearchBar from "./components/SearchBar.vue";
+import CategoriesFilter1 from "./components/CategoriesFilter1.vue";
 import axios from "axios";
 
 export default {
@@ -25,9 +23,8 @@ export default {
     HeaderComp,
     FoodCard,
     FooterComponent,
-    RestarauntsFilter,
-    CategoriesFilter,
-    SearchBar
+    SearchBar,
+    CategoriesFilter1
   },
   data() {
     return {
@@ -68,7 +65,7 @@ export default {
         });
     },
     fetchDishesByRestaurant(selectedRestaraunt) {
-      if (selectedRestaraunt === "all") {
+      if (selectedRestaraunt.trim() === "") {
         this.fetchDishes();
       }
       else {
@@ -115,7 +112,6 @@ export default {
 
   },
   created() {
-    this.fetchRestaraunts();
     this.fetchCaterories();
     this.fetchDishes();
   },
