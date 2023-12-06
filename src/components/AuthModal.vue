@@ -28,10 +28,11 @@
 </template>
   
 <script>
-//import mitt from 'mitt';
+//import {v4 as uuidv4} from 'uuid';
+import mitt from 'mitt';
 import axios from 'axios';
 
-//const emitter = mitt();
+const emitter = mitt();
 
 export default {
   data() {
@@ -41,15 +42,36 @@ export default {
       usernameError: false,
       passwordError: false,
       showPassword: false,
-      isLogining: true
+      isLogining: true,
+      user: {
+        userRoleId: '6974351f-c752-454e-874d-40665fe2cc32',
+        login: String,
+        password: String
+      }
     };
   },
   methods: {
     changeIsLoginig() {
       this.isLogining = !this.isLogining
     },
-    registrate() {
-      this.changeIsLoginig()
+    async registrate() {
+      this.user.login = this.username
+      this.user.password = this.password
+      try {
+        const response = await axios.post(`https://localhost:7242/api/Authorization/Registration`, this.user);
+        if (response.status !== 200) {
+          console.log("registration error")
+        }
+        else {
+          this.user.login = ""
+          this.user.password = ""
+          this.changeIsLoginig()
+        }
+      } catch (error) {
+        // Обработка ошибок при запросе
+        console.error('An error occurred during authentication:', error);
+      }
+
     },
     validateAndLogin() {
       // Валидация полей
@@ -67,6 +89,8 @@ export default {
         if (response.data && response.data.token) {
           // Сохранение токена в localStorage или другом хранилище
           localStorage.setItem('token', response.data.token);
+
+          emitter.emit('authentificated')
 
           // Закрытие модального окна
           this.$emit('close');
