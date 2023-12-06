@@ -7,7 +7,12 @@
       <h5 class=""> {{ position.categoryName }} </h5>
       <h5> {{ position.restarauntName }} </h5>
     </div>
-    <button class="flat-button">Добавить в корзину</button>
+    <button class="flat-button" @click="addToCart">Добавить в корзину</button>
+
+    <div v-if="showErrorModal" class="error-modal">
+      <p>{{ errorMessage }}</p>
+      <button @click="closeErrorModal">Закрыть</button>
+    </div>
   </div>
 </template>
   
@@ -16,7 +21,31 @@ export default {
   props: {
     position: Object,
   },
+  data() {
+    return {
+      showErrorModal: false,
+      errorMessage: "",
+    };
+  },
+  methods: {
+    addToCart() {
+      // Проверка на авторизацию пользователя
+      if (localStorage.getItem('token') === null) {
+        this.showErrorModal = true;
+        this.errorMessage = "Для добавления в корзину необходимо авторизоваться.";
+      } else {
+        // Логика добавления в корзину
+        // ...
+      }
+    },
+    closeErrorModal() {
+      this.showErrorModal = false;
+    },
+  },
 };
+
+
+
 </script>
   
 <style>
