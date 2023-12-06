@@ -3,7 +3,8 @@
     <div class="header-content">
       <h1>Eat Eaze Delivery</h1>
       <div class="footer-buttons">
-        <button class="auth-button" @click="showAuthModal">Авторизоваться</button>
+        <button v-if="!isAuthenticated" class="auth-button" @authenticated="handleAuthentication" @click="showAuthModal">Авторизоваться</button>
+        <button v-else class="auth-button" @click="logout">Выйти</button>
         <button class="cart-button">
           <img src="https://www.svgrepo.com/show/34974/shopping-cart.svg" alt="Корзина" />
         </button>
@@ -15,6 +16,10 @@
     
 <script>
 import AuthModal from './AuthModal.vue';
+//import mitt from 'mitt';
+
+// Create an emitter instance
+//const emitter = mitt();
 
 export default {
   components: {
@@ -22,6 +27,7 @@ export default {
   },
   data() {
     return {
+      isAuthenticated: false,
       isAuthModalVisible: false
     };
   },
@@ -31,8 +37,16 @@ export default {
     },
     hideAuthModal() {
       this.isAuthModalVisible = false;
+    },
+    logout() {
+      // Perform any necessary actions to log the user out
+      // For example, clear the authentication token from localStorage
+      localStorage.removeItem('token');
+
+      // Update the authentication status
+      this.isAuthenticated = false;
     }
-  }
+  },
 };
 </script>
 

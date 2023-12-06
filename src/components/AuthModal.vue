@@ -1,22 +1,38 @@
 <template>
   <div class="auth-modal">
     <transition name="fade">
-      <div class="auth-modal-content">
+      <div v-if="isLogining" class="auth-modal-content">
         <button class="close-button" @click="closeModal">&times;</button>
         <h2>Авторизация</h2>
         <div class="input-container">
           <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }" />
           <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password"
             :class="{ 'error': passwordError }" />
-          <!--<button class="reg-button" @click="openRegistration">Зарегистрироваться</button>-->
+          <button @click="changeIsLoginig">Еще нет аккаунта?</button>
         </div>
         <button class="auth-button" @click="validateAndLogin">Войти</button>
+      </div>
+      <div v-else class="auth-modal-content">
+        <button class="close-button" @click="closeModal">&times;</button>
+        <h2>Регистрация</h2>
+        <div class="input-container">
+          <input type="text" placeholder="Логин" v-model="username" :class="{ 'error': usernameError }" />
+          <input :type="showPassword ? 'text' : 'password'" placeholder="Пароль" v-model="password"
+            :class="{ 'error': passwordError }" />
+          <button @click="changeIsLoginig">Есть аккаунт?</button>
+        </div>
+        <button class="auth-button" @click="registrate">Зарегистрироваться</button>
       </div>
     </transition>
   </div>
 </template>
   
 <script>
+//import mitt from 'mitt';
+import axios from 'axios';
+
+//const emitter = mitt();
+
 export default {
   data() {
     return {
@@ -24,10 +40,17 @@ export default {
       password: '',
       usernameError: false,
       passwordError: false,
-      showPassword: false
+      showPassword: false,
+      isLogining: true
     };
   },
   methods: {
+    changeIsLoginig() {
+      this.isLogining = !this.isLogining
+    },
+    registrate() {
+      this.changeIsLoginig()
+    },
     validateAndLogin() {
       // Валидация полей
       this.usernameError = this.username.trim() === '';
@@ -37,15 +60,27 @@ export default {
         this.login();
       }
     },
-    login() {
-      // todo: связать с бэкэндом
-      this.$emit('close');
+    async login() {
+      try {
+        const response = await axios.get(`https://localhost:7242/api/Authorization/SignIn/${this.username}/${this.password}`);
+        // Проверка успешной аутентификации на бэкэнде
+        if (response.data && response.data.token) {
+          // Сохранение токена в localStorage или другом хранилище
+          localStorage.setItem('token', response.data.token);
+
+          // Закрытие модального окна
+          this.$emit('close');
+        } else {
+          // Обработка случая неудачной аутентификации
+          console.error('Authentication failed');
+        }
+      } catch (error) {
+        // Обработка ошибок при запросе
+        console.error('An error occurred during authentication:', error);
+      }
     },
     closeModal() {
       this.$emit('close');
-    },
-    openRegistration() {
-
     }
   }
 };
