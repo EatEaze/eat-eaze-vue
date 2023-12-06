@@ -1,17 +1,17 @@
 <template>
-    <div>
+    <div class="categories-filter1 p-4">
         <div>
-            <button v-for="category in categories" :key="category.categoryId" @click="fetchRestarauntsByCategory(category.categoryId)">
+            <button v-for="category in categories" :key="category.categoryId" @click="fetchRestarauntsByCategory(category.categoryId)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
                 {{ category.categoryName }}
             </button>
         </div>
 
-        <div v-if="isCategorySelected">
-            <div>
-                <button @click="closeModal">Закрыть</button>
+        <div v-if="isCategorySelected" class="mt-4">
+            <div class="flex items-center mb-2">
+                <button @click="closeModal" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Закрыть</button>
             </div>
             <div>
-                <button v-for="restaurant in restaurants" :key="restaurant.restarauntId"  @click="filterByRestaurant(restaurant.restarauntId)">
+                <button v-for="restaurant in restaurants" :key="restaurant.restarauntId"  @click="filterByRestaurant(restaurant.restarauntId)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2 mb-2">
                     {{ restaurant.restarauntName }}
                 </button>
             </div>

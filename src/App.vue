@@ -1,12 +1,19 @@
 <template>
-  <div class="order-page">
-    <HeaderComp />
-    <CategoriesFilter1 :categories="categories" @filterByRestaurant="fetchDishesByRestaurant"/>
-    <SearchBar @searchDishes="searchDishesByName" />
-    <div class="food-card-container">
+  <div class="order-page min-h-screen bg-gray-100">
+    <HeaderComp class="mb-4" />
+
+    <!-- Flex container для CategoriesFilter1 и SearchBar с отступом сверху -->
+    <div class="flex mt-4">
+      <CategoriesFilter1 :categories="categories" @filterByRestaurant="fetchDishesByRestaurant" class="mr-4" />
+      <SearchBar @searchDishes="searchDishesByName" />
+    </div>
+
+    <div class="food-card-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <!-- Пример использования grid с колонками, зависящими от размера экрана -->
       <FoodCard v-for="foodItem in foodItems" :key="foodItem.PositionId" :position="foodItem" />
     </div>
-    <FooterComponent />
+
+    <FooterComponent class="mt-4" />
   </div>
 </template>
 
@@ -119,27 +126,4 @@ export default {
 };
 </script>
 
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-.order-page {
-  font-family: 'Your Chosen Font', sans-serif;
-  /* Замените 'Your Chosen Font' на выбранный вами шрифт */
-  background-color: #ecf0f1;
-  /* Цвет фона */
-  color: #333;
-  /* Цвет текста */
-}
-
-.food-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  padding: 20px;
-}
-</style>

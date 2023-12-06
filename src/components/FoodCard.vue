@@ -1,17 +1,20 @@
 <template>
-  <div class="position-card">
-    <img :src="position.imageURL" alt="Position Image" class="flat-image" />
-    <h3 class="flat-title">{{ position.positionName }}</h3>
-    <h3 class="flat-price">{{ position.price }} руб.</h3>
-    <div class="categoty-restaraunt">
-      <h5 class=""> {{ position.categoryName }} </h5>
-      <h5> {{ position.restarauntName }} </h5>
+  <div class="food-card rounded-lg overflow-hidden shadow-lg bg-white">
+    <div class="relative h-48">
+      <img :src="position.imageURL" alt="Position Image" class="w-full h-full object-cover" />
+      <div v-if="position.restarauntImageURL" class="restaurant-logo">
+        <img :src="position.restarauntImageURL" alt="Restaurant Logo" class="w-8 h-8 rounded-full" />
+      </div>
     </div>
-    <button class="flat-button" @click="addToCart">Добавить в корзину</button>
-
-    <div v-if="showErrorModal" class="error-modal">
-      <p>{{ errorMessage }}</p>
-      <button @click="closeErrorModal">Закрыть</button>
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2 truncate">{{ position.positionName }}</div>
+      <div class="text-gray-600 mb-2 truncate">{{ position.restarauntName }}</div>
+      <div class="flex justify-between items-center">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue" @click="addToCart">
+          Добавить в корзину
+        </button>
+        <div class="text-xl font-bold">{{ position.price }} руб.</div>
+      </div>
     </div>
   </div>
 </template>
@@ -50,64 +53,19 @@ export default {
 
 </script>
   
-<style>
-.position-card {
-  text-align: center;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+<style scoped>
+.food-card {
+  transition: transform 0.3s;
 }
 
-.position-card:hover {
+.food-card:hover {
   transform: scale(1.05);
 }
 
-.flat-image {
-  height: 200px;
-  width: 200px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.flat-title {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
-}
-
-.flat-price {
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-
-.flat-button {
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  font-family: 'Trebuchet MS';
-  margin-bottom: 5px;
-}
-
-.flat-button:hover {
-  background-color: #2980b9;
-
-}
-
-.category-restaraunt {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 10px;
-}
-
-.category-restaraunt h2 {
-  font-size: 1rem;
-  margin: 0;
+.restaurant-logo {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 </style>
   
