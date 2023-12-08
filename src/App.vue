@@ -69,7 +69,7 @@ export default {
       }, 1500); 
     },
     hideNotification() {
-      this.show = false;
+      this.showBasketNotification = false;
     },
     fetchDishes() {
       axios.get('https://localhost:7242/api/Positions/positions')

@@ -78,13 +78,14 @@ export default {
       }
 
     },
-    validateAndLogin() {
+    async validateAndLogin() {
       // Валидация полей
       this.usernameError = this.username.trim() === '';
       this.passwordError = this.password.trim() === '';
 
       if (!this.usernameError && !this.passwordError) {
-        this.login();
+        await this.login();
+        this.$emitter.emit('authentificatedForBasket')
       }
     },
     async login() {
@@ -94,9 +95,7 @@ export default {
         if (response.data && response.data.token) {
           // Сохранение токена в localStorage или другом хранилище
           localStorage.setItem('token', response.data.token);
-
           this.$emit('authentificated')
-          this.$emitter.emit('authentificatedForBasket')
           // Закрытие модального окна
           this.$emit('close');
         } else {

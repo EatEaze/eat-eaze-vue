@@ -52,7 +52,7 @@ export default {
     logout() {
       localStorage.removeItem('token');
       this.isAuthenticated = false;
-      this.$emitter.emit('logedOut')
+      this.$emitter.emit('loggedOut')
     },
     onAuthenticated() {
       this.isAuthenticated = true;

@@ -91,6 +91,7 @@ export default {
         },
         getBasketItems() {
             const token = localStorage.getItem('token')
+            //console.log(token)
             axios.get(`https://localhost:7242/api/Basket/basket/${token}`)
                 .then(response => {
                     this.items = response.data.itemsInBasket;
@@ -113,11 +114,16 @@ export default {
     created() {
         if (localStorage.getItem('token') !== null) {
             this.getBasketItems()
-            this.$emitter.on('addedToCart', this.getBasketItems); 
-            this.$emitter.on('loggedOut', this.handleLogout);
-            this.$emitter.on('authentificatedForBasket', this.getBasketItems);
+            this.$emitter.on('addedToCart', this.getBasketItems);
         }
-    }
+
+        this.$emitter.on('authentificatedForBasket', () => {
+            this.getBasketItems()
+        });
+        this.$emitter.on('loggedOut', () => {
+            this.handleLogout(); 
+        })
+    },
 };
 </script>
   
