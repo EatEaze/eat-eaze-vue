@@ -50,6 +50,9 @@ export default {
     };
   },
   methods: {
+    loadBasket() {
+      this.$emit('loadBasket')
+    },
     changeIsLoginig() {
       this.isLogining = !this.isLogining
     },
