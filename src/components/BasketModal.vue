@@ -116,6 +116,8 @@ export default {
         if (localStorage.getItem('token') !== null) {
             this.getBasketItems()
             this.$emitter.on('addedToCart', this.getBasketItems); 
+            this.$emitter.on('loggedOut', this.handleLogout);
+            this.$emitter.on('authentificatedForBasket', this.getBasketItems);
         }
     }
 };

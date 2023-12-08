@@ -50,9 +50,6 @@ export default {
     };
   },
   methods: {
-    loadBasket() {
-      this.$emit('loadBasket')
-    },
     changeIsLoginig() {
       this.isLogining = !this.isLogining
     },
@@ -99,7 +96,7 @@ export default {
           localStorage.setItem('token', response.data.token);
 
           this.$emit('authentificated')
-
+          this.$emitter.emit('authentificatedForBasket')
           // Закрытие модального окна
           this.$emit('close');
         } else {

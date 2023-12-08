@@ -18,7 +18,7 @@
         </button>
       </div>
     </div>
-    <auth-modal v-if="isAuthModalVisible" @authentificated="onAuthenticated" @close="hideAuthModal" @loadBasket="onLoadBasket"/>
+    <auth-modal v-if="isAuthModalVisible" @authentificated="onAuthenticated" @close="hideAuthModal"/>
     <basket-modal :show="showCart" @close="toggleCart"/>
   </header>
 </template>
@@ -52,9 +52,9 @@ export default {
     logout() {
       localStorage.removeItem('token');
       this.isAuthenticated = false;
+      this.$emitter.emit('logedOut')
     },
     onAuthenticated() {
-      console.log(this.isAuthenticated)
       this.isAuthenticated = true;
     },
     isAuthenticatedOnStart() {
@@ -63,7 +63,9 @@ export default {
       }
     },
     toggleCart() {
-      this.showCart = !this.showCart;
+      if (localStorage.getItem('token') !== null) {
+        this.showCart = !this.showCart;
+      }
     },
   },
   created() {
