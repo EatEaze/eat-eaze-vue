@@ -66,6 +66,9 @@ export default {
       if (localStorage.getItem('token') !== null) {
         this.showCart = !this.showCart;
       }
+      else {
+        this.$emitter.emit('authError')
+      }
     },
   },
   created() {

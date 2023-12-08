@@ -8,12 +8,15 @@
       <SearchBar @searchDishes="searchDishesByName" />
     </div>
 
-    <div class="food-card-container flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+    <div
+      class="food-card-container flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
       <!-- Пример использования grid с колонками, зависящими от размера экрана -->
       <FoodCard v-for="foodItem in foodItems" :key="foodItem.PositionId" :position="foodItem" />
     </div>
 
     <FooterComponent class="mt-4" />
+    <BasketNotification v-if="showBasketNotification" />
+    <AuthNotification v-if="showAuthErrorNotification" />
   </div>
 </template>
 
@@ -24,6 +27,8 @@ import FoodCard from "@/components/FoodCard.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import SearchBar from "./components/SearchBar.vue";
 import CategoriesFilter1 from "./components/CategoriesFilter1.vue";
+import BasketNotification from '@/components/BasketNotification.vue';
+import AuthNotification from "./components/AuthNotification.vue";
 import axios from "axios";
 
 export default {
@@ -32,7 +37,9 @@ export default {
     FoodCard,
     FooterComponent,
     SearchBar,
-    CategoriesFilter1
+    CategoriesFilter1,
+    BasketNotification,
+    AuthNotification
   },
   data() {
     return {
@@ -40,10 +47,30 @@ export default {
       selectedCategory: null,
       foodItems: [],
       restaraunts: [],
-      categories: []
+      categories: [],
+      showBasketNotification: false,
+      showAuthErrorNotification: false
     };
   },
   methods: {
+    showAuthNotification() {
+      this.showAuthErrorNotification = true;
+      setTimeout(() => {
+        this.hideAuthNotification();
+      }, 1500); 
+    },
+    hideAuthNotification() {
+      this.showAuthErrorNotification = false;
+    },
+    showNotification() {
+      this.showBasketNotification = true;
+      setTimeout(() => {
+        this.hideNotification();
+      }, 1500); 
+    },
+    hideNotification() {
+      this.show = false;
+    },
     fetchDishes() {
       axios.get('https://localhost:7242/api/Positions/positions')
         .then(responce => {
@@ -122,6 +149,8 @@ export default {
   created() {
     this.fetchCaterories();
     this.fetchDishes();
+    this.$emitter.on('addedToCart', this.showNotification);
+    this.$emitter.on('authError', this.showAuthNotification);
   },
 
 };

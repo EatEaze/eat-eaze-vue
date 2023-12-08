@@ -12,19 +12,25 @@
       <div class="flex justify-between items-center">
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
-          @click="addToCart(position.positionId)">
+          @click="toggleFoodBuyCard">
           Добавить в корзину
         </button>
         <div class="text-xl font-bold">{{ position.price }} руб.</div>
       </div>
     </div>
   </div>
+
+  <FoodBuyCard v-if="showFoodBuyCard" :position="position" @close="toggleFoodBuyCard"/>
 </template>
   
 <script>
 import axios from 'axios';
+import FoodBuyCard from './FoodBuyCard.vue';
 
 export default {
+  components: {
+    FoodBuyCard
+  },
   props: {
     position: Object,
   },
@@ -32,10 +38,14 @@ export default {
     return {
       showErrorModal: false,
       errorMessage: "",
+      showFoodBuyCard: false
     }
 
   },
   methods: {
+    toggleFoodBuyCard() {
+      this.showFoodBuyCard = !this.showFoodBuyCard
+    },
     async addToCart(positionId) {
       const token = localStorage.getItem('token')
       if (token === null) {

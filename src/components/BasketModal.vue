@@ -57,7 +57,7 @@ export default {
         async increment(item) {
             const token = localStorage.getItem('token')
             try {
-                const response = await axios.post(`https://localhost:7242/api/Basket/Basket/add/${token}/${item.item.positionId}`)
+                const response = await axios.post(`https://localhost:7242/api/Basket/Basket/add/${token}/${item.item.positionId}/1`)
                 if (response.status === 200) {
                     this.getBasketItems()
                 }
@@ -88,8 +88,6 @@ export default {
                     console.error(error);
                 }
             }
-
-
         },
         getBasketItems() {
             const token = localStorage.getItem('token')
