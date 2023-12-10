@@ -3,11 +3,21 @@
     <HeaderComp class="mb-4" />
 
     <!-- Flex container для CategoriesFilter1 и SearchBar с отступом сверху -->
-    <div class="flex mt-4">
-      <CategoriesFilter1 :categories="categories" @filterByRestaurant="fetchDishesByRestaurant" class="mr-4" />
-      <SearchBar @searchDishes="searchDishesByName" />
-      <button @click="showMap = !showMap">Выбрать адрес</button>
+    <div class="flex mt-4 flex-col">
+      <div class="flex items-center space-x-4">
+        <div class="ml-4">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" @click="showMap = !showMap">Выбрать адрес</button>
+        </div>
+        <p class="text-gray-500">{{ getAddress() }}</p>
+      </div>
+      <div class="flex items-center space-x-4 mt-2">
+        <CategoriesFilter1 :categories="categories" @filterByRestaurant="fetchDishesByRestaurant" />
+        <SearchBar @searchDishes="searchDishesByName" />
+      </div>
     </div>
+
+
+
 
     <div
       class="food-card-container flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
@@ -58,11 +68,14 @@ export default {
     };
   },
   methods: {
+    getAddress() {
+      return sessionStorage.getItem('address');
+    },
     showAuthNotification() {
       this.showAuthErrorNotification = true;
       setTimeout(() => {
         this.hideAuthNotification();
-      }, 1500); 
+      }, 1500);
     },
     hideAuthNotification() {
       this.showAuthErrorNotification = false;
@@ -71,7 +84,7 @@ export default {
       this.showBasketNotification = true;
       setTimeout(() => {
         this.hideNotification();
-      }, 1500); 
+      }, 1500);
     },
     hideNotification() {
       this.showBasketNotification = false;

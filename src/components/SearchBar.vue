@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <input v-model="searchQuery" @input="search" placeholder="Search by dish name" class="w-96 border border-gray-300 px-4 py-2 rounded focus:outline-none focus:border-blue-500 transition-all duration-300" />
+    <input v-model="searchQuery" @input="search" placeholder="Search by dish name" class="w-96 border border-gray-300 px-4 py-2 rounded focus:outline-none focus:border-blue-500 transition-all duration-300 mt-4" />
   </div>
 </template>
 

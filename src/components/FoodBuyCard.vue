@@ -86,7 +86,6 @@ export default {
         },
         async addToCart(positionId, quantity) {
             const token = localStorage.getItem('token')
-            console.log(token)
             if (token === null) {
                 this.$emitter.emit('authError')
             } else {

@@ -11,9 +11,11 @@
             <BasketItem v-for="item in items" :key="item.positionId" :item="item" @increment="increment(item)"
                 @decrement="decrement(item)" @removeItem="removeItem(item)" />
             <div class="flex justify-between items-center mt-4">
-                <button class="bg-blue-500 text-white py-2 px-4 rounded-full" :disabled="!isBasketEmpty" @click="setOrder('test')">Оформить заказ</button>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-700" :disabled="basketEmpty"
+                    @click="setOrder(getAddress())">Оформить заказ</button>
                 <span class="total-price">Итого: {{ calculateTotalPrice() }} руб.</span>
             </div>
+            <div v-if="errorText" class="text-red-500 mb-4">{{ errorText }}</div>
         </div>
     </div>
 </template>
@@ -30,14 +32,25 @@ export default {
         BasketItem,
     },
     methods: {
+        getAddress() {
+            const address = sessionStorage.getItem('address');
+            if (address === null) {
+                return null
+            }
+            else {
+                return address 
+            }
+        },
         calculateTotalPrice() {
             const result = this.items.reduce((total, item) => {
                 return total + item.item.price * item.count;
             }, 0);
+            result === 0 ? this.basketEmpty = true : this.basketEmpty = false;
             return `${result.toFixed(2)}`
         },
         close() {
             this.$emit('close');
+            this.errorText = ''
         },
         async removeItem(item) {
             const token = localStorage.getItem('token')
@@ -95,7 +108,6 @@ export default {
             axios.get(`https://localhost:7242/api/Basket/basket/${token}`)
                 .then(response => {
                     this.items = response.data.itemsInBasket;
-                    console.log(this.items)
                 })
                 .catch(error => {
                     console.error(error);
@@ -104,27 +116,32 @@ export default {
         handleLogout() {
             this.items = []
         },
-        isBasketEmpty() {
-            return this.items.length === 0 ? true : false
-        },
         async setOrder(address) {
             const token = localStorage.getItem('token')
+
+            if (address === null) {
+                this.errorText = 'Вы не выбрали адрес';
+                return
+            } 
+
             const currentDate = new Date();
 
             const response = await axios.put(`https://localhost:7242/api/Orders/orders/setOrder/${token}/${address}/${currentDate.toISOString()}`)
-            if (response.code === 200) {
+            if (response.data) {
                 this.items = []
                 this.close()
             }
             else {
-                console.log('set order error' + response.response)
-            }
+                console.log('set order error ' + response.response)
+            } 
         }
     },
     data() {
         return {
             items: [],
-            totalPrice: 0
+            totalPrice: 0,
+            basketEmpty: true,
+            errorText: ''
         };
     },
     created() {
@@ -137,7 +154,7 @@ export default {
             this.getBasketItems()
         });
         this.$emitter.on('loggedOut', () => {
-            this.handleLogout(); 
+            this.handleLogout();
         })
     },
 };
