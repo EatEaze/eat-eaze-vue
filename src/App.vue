@@ -6,6 +6,7 @@
     <div class="flex mt-4">
       <CategoriesFilter1 :categories="categories" @filterByRestaurant="fetchDishesByRestaurant" class="mr-4" />
       <SearchBar @searchDishes="searchDishesByName" />
+      <button @click="showMap = !showMap">Выбрать адрес</button>
     </div>
 
     <div
@@ -17,6 +18,7 @@
     <FooterComponent class="mt-4" />
     <BasketNotification v-if="showBasketNotification" />
     <AuthNotification v-if="showAuthErrorNotification" />
+    <MapModal v-if="showMap" @close="showMap = !showMap" />
   </div>
 </template>
 
@@ -29,6 +31,7 @@ import SearchBar from "./components/SearchBar.vue";
 import CategoriesFilter1 from "./components/CategoriesFilter1.vue";
 import BasketNotification from '@/components/BasketNotification.vue';
 import AuthNotification from "./components/AuthNotification.vue";
+import MapModal from "./components/MapModal.vue";
 import axios from "axios";
 
 export default {
@@ -39,7 +42,8 @@ export default {
     SearchBar,
     CategoriesFilter1,
     BasketNotification,
-    AuthNotification
+    AuthNotification,
+    MapModal
   },
   data() {
     return {
@@ -49,7 +53,8 @@ export default {
       restaraunts: [],
       categories: [],
       showBasketNotification: false,
-      showAuthErrorNotification: false
+      showAuthErrorNotification: false,
+      showMap: false
     };
   },
   methods: {
