@@ -6,16 +6,11 @@
                 <input v-model="address" placeholder="Введите адрес" class="w-full p-2 border border-gray-300 rounded-md"
                     @input="searchAddress" />
             </div>
-            <div class="w-full h-96 rounded-md overflow-hidden mb-4">
-                <!-- Увеличил высоту до h-96 -->
-                <mgl-map mapStyle="https://api.maptiler.com/maps/streets-v2/style.json?key=M1zVnAsC0TpjLx1wgs2I"
-                    :center="[55.7522, 37.6156]" :zoom="1" class="w-full h-full">
-                    <MglMarker :coordinates="[55.7522, 37.6156]"/>
-                    <MglNavigationControl/>
-                </mgl-map>
+            <div class="w-full h-96 rounded-md overflow-hidden mb-4" ref="mapContainer">
+                <!--Карта-->
             </div>
             <div class="flex justify-end">
-                <button @click="closeModal" class="px-4 py-2 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                <button @click="setAddress(this.address)" class="px-4 py-2 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                     OK
                 </button>
                 <button @click="closeModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
@@ -31,14 +26,18 @@
   
   
 <script>
-import { MglMap, MglNavigationControl, MglMarker } from 'vue-maplibre-gl';
-
+import maplibregl from 'maplibre-gl';
 
 export default {
-    components: {
-        MglMap,
-        MglNavigationControl,
-        MglMarker
+    data() {
+        return {
+            map: null,
+            marker: null,
+            address: '',
+            mapStyle: 'https://api.maptiler.com/maps/streets/style.json?key=M1zVnAsC0TpjLx1wgs2I',
+            markerImage: 'https://www.svgrepo.com/show/376955/map-marker.svg',
+            opencageApiKey: '06d171e95f29406ca3cbd05d9e84f0f3'
+        };
     },
     methods: {
         searchAddress() {
@@ -48,8 +47,67 @@ export default {
             // Ваш код для закрытия модального окна и передачи выбранного адреса
             this.$emit('close', this.address, this.selectedCoords);
         },
+        setAddress(address) {
+            sessionStorage.setItem('address', address);
+            this.closeModal();
+        },
+        initMap() {
+            // Инициализация карты
+            this.map = new maplibregl.Map({
+                container: this.$refs.mapContainer,
+                style: this.mapStyle,
+                center: [37.6173, 55.7558], // Установите начальные координаты
+                zoom: 12, // Установите начальный уровень масштабирования
+            });
+
+
+            const center = this.map.getCenter();
+            this.marker = new maplibregl.Marker({ draggable: false })
+                .setLngLat(center)
+                .addTo(this.map);
+
+
+            this.marker.getElement().style.backgroundImage = `url(${this.markerImage})`;
+            // Handle map move events
+            this.map.on('move', () => {
+                const center = this.map.getCenter();
+                // Update marker position to the center of the map
+                this.marker.setLngLat(center);
+                // Your code to handle the selected address
+            });
+
+            // Обработка клика на карту
+            this.map.on('click', async (e) => {
+                const { lng, lat } = e.lngLat;
+                console.log(`lng: ${lng} lat: ${lat}`)
+                // Установите новые координаты маркера
+                this.marker.setLngLat([lng, lat]);
+                // Ваш код для обработки выбранного адреса
+
+                const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${this.opencageApiKey}`;
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    if (data.results.length > 0) {
+                        const city = data.results[0].components.city
+                        const address = data.results[0].formatted;
+                        // Обновление адреса в данных вашего компонента
+                        this.address = address;
+                        console.log(city + " | " + this.address)
+                    } else {
+                        this.address = 'Address not found';
+                    }
+                } catch (error) {
+                    console.error('Error fetching geocoding data:', error);
+                    this.address = 'Error fetching address';
+                }
+            });
+        },
     },
     mounted() {
+        // Вызовите метод инициализации карты при монтировании компонента
+        this.initMap();
     },
 };
 </script>   
