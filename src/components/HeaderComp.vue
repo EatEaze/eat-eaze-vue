@@ -9,7 +9,11 @@
           @click="showAuthModal">Авторизоваться</button>
         <button v-else
           class="auth-button px-4 py-2 bg-white text-blue-500 rounded-full border border-blue-500 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-105"
-          @click="logout">Выйти</button>
+          @click="logout">Выйти
+        </button>
+        <button class=" px-4 py-2 bg-white text-blue-500 rounded-full border border-blue-500 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-105" v-if="isAuthenticated" @click="toggleOrders">
+          Мои заказы
+        </button>
         <button
           class="cart-button p-3 bg-white rounded-full transition duration-300 ease-in-out transform hover:scale-105"
           @click="toggleCart"
@@ -20,23 +24,27 @@
     </div>
     <auth-modal v-if="isAuthModalVisible" @authentificated="onAuthenticated" @close="hideAuthModal"/>
     <basket-modal :show="showCart" @close="toggleCart"/>
+    <orders-modal v-if="showOrders" @close="toggleOrders"/>
   </header>
 </template>
 
 <script>
 import AuthModal from './AuthModal.vue';
 import BasketModal from './BasketModal.vue';
+import OrdersModal from './OrdersModal.vue';
 
 export default {
   components: {
     AuthModal,
-    BasketModal
+    BasketModal,
+    OrdersModal
   },
   data() {
     return {
       isAuthenticated: false,
       isAuthModalVisible: false,
-      showCart: false
+      showCart: false,
+      showOrders: false 
     };
   },
   methods: {
@@ -70,6 +78,10 @@ export default {
         this.$emitter.emit('authError')
       }
     },
+    toggleOrders() {
+      this.showOrders = !this.showOrders
+      console.log(this.showOrders)
+    }
   },
   created() {
     this.isAuthenticatedOnStart()

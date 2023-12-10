@@ -12,6 +12,7 @@
           <button @click="changeIsLoginig" class="text-blue-500">Еще нет аккаунта?</button>
         </div>
         <button class="auth-button bg-blue-500 text-white py-2 px-4 rounded" @click="validateAndLogin">Войти</button>
+        <div v-if="loginErrorMessage" class="text-red-500 mb-4">{{ loginErrorMessage }}</div>
       </div>
       <div v-else class="auth-modal-content bg-white p-8 rounded-md shadow-md relative">
         <button class="close-button absolute top-0 right-0 p-4" @click="closeModal">&times;</button>
@@ -42,6 +43,7 @@ export default {
       passwordError: false,
       showPassword: false,
       isLogining: true,
+      loginErrorMessage: '',
       user: {
         userRoleId: '6974351f-c752-454e-874d-40665fe2cc32',
         login: String,
@@ -104,6 +106,7 @@ export default {
         }
       } catch (error) {
         // Обработка ошибок при запросе
+        this.loginErrorMessage = 'Неправильный логин или пароль';
         console.error('An error occurred during authentication:', error);
       }
     },

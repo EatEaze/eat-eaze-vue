@@ -11,7 +11,7 @@
             <BasketItem v-for="item in items" :key="item.positionId" :item="item" @increment="increment(item)"
                 @decrement="decrement(item)" @removeItem="removeItem(item)" />
             <div class="flex justify-between items-center mt-4">
-                <button class="bg-blue-500 text-white py-2 px-4 rounded-full">Оформить заказ</button>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded-full" :disabled="!isBasketEmpty" @click="setOrder('test')">Оформить заказ</button>
                 <span class="total-price">Итого: {{ calculateTotalPrice() }} руб.</span>
             </div>
         </div>
@@ -103,6 +103,22 @@ export default {
         },
         handleLogout() {
             this.items = []
+        },
+        isBasketEmpty() {
+            return this.items.length === 0 ? true : false
+        },
+        async setOrder(address) {
+            const token = localStorage.getItem('token')
+            const currentDate = new Date();
+
+            const response = await axios.put(`https://localhost:7242/api/Orders/orders/setOrder/${token}/${address}/${currentDate.toISOString()}`)
+            if (response.code === 200) {
+                this.items = []
+                this.close()
+            }
+            else {
+                console.log('set order error' + response.response)
+            }
         }
     },
     data() {
