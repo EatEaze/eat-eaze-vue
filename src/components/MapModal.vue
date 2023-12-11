@@ -10,13 +10,15 @@
                 <!--Карта-->
             </div>
             <div class="flex justify-end">
-                <button @click="setAddress(this.address)" class="px-4 py-2 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                <button @click="setAddress(this.address)"
+                    class="px-4 py-2 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                     OK
                 </button>
                 <button @click="closeModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
                     Закрыть
                 </button>
             </div>
+            <p v-if="cityError">{{ cityError }}</p>
         </div>
     </div>
 </template>
@@ -27,6 +29,7 @@
   
 <script>
 import maplibregl from 'maplibre-gl';
+import axios from 'axios';
 
 export default {
     data() {
@@ -36,7 +39,9 @@ export default {
             address: '',
             mapStyle: 'https://api.maptiler.com/maps/streets/style.json?key=M1zVnAsC0TpjLx1wgs2I',
             markerImage: 'https://www.svgrepo.com/show/376955/map-marker.svg',
-            opencageApiKey: '06d171e95f29406ca3cbd05d9e84f0f3'
+            opencageApiKey: '06d171e95f29406ca3cbd05d9e84f0f3',
+            cities: [],
+            cityError: ''
         };
     },
     methods: {
@@ -45,11 +50,21 @@ export default {
         },
         closeModal() {
             // Ваш код для закрытия модального окна и передачи выбранного адреса
+            this.cityError = ''
             this.$emit('close', this.address, this.selectedCoords);
         },
         setAddress(address) {
             sessionStorage.setItem('address', address);
             this.closeModal();
+        },
+        getAvailableCities() {
+            axios.get(`https://localhost:7242/api/City/cities`)
+                .then(response => {
+                    this.cities = response.data;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         initMap() {
             // Инициализация карты
@@ -90,11 +105,24 @@ export default {
                     const data = await response.json();
 
                     if (data.results.length > 0) {
-                        const city = data.results[0].components.city
+                        const selectedCity = data.results[0].components.city
                         const address = data.results[0].formatted;
                         // Обновление адреса в данных вашего компонента
-                        this.address = address;
-                        console.log(city + " | " + this.address)
+                        var isCityInArray = this.cities.some(function (city) {
+                            return city.cityName === selectedCity;
+                        }) 
+                        
+                        if (isCityInArray) {
+                            this.cityError = ''
+                            this.address = address;
+                            console.log(selectedCity + " | " + this.address)
+                        }
+                        else {
+                            this.cityError = 'Мы не работаем в этом городе'
+                            console.log(selectedCity + " | " + this.address)
+                        }
+                        
+                        
                     } else {
                         this.address = 'Address not found';
                     }
@@ -107,6 +135,7 @@ export default {
     },
     mounted() {
         // Вызовите метод инициализации карты при монтировании компонента
+        this.getAvailableCities();
         this.initMap();
     },
 };
