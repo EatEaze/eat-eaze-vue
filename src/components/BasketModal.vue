@@ -12,16 +12,19 @@
                 @decrement="decrement(item)" @removeItem="removeItem(item)" />
             <div class="flex justify-between items-center mt-4">
                 <button class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-700" :disabled="basketEmpty"
-                    @click="setOrder(getAddress())">Оформить заказ</button>
+                    @click="showAddressModal = true">Оформить заказ</button>
                 <span class="total-price">Итого: {{ calculateTotalPrice() }} руб.</span>
             </div>
             <div v-if="errorText" class="text-red-500 mb-4">{{ errorText }}</div>
         </div>
+        
     </div>
+    <AddressOrderModal v-if="showAddressModal" @submitOrder="setOrder(getAddress())" @closeModal="closeAddressModal" />
 </template>
   
 <script>
 import BasketItem from './BasketItem.vue';
+import AddressOrderModal from './AddressOrderModal.vue'
 import axios from 'axios';
 
 export default {
@@ -30,15 +33,19 @@ export default {
     },
     components: {
         BasketItem,
+        AddressOrderModal
     },
     methods: {
+        closeAddressModal() {
+            this.showAddressModal = false;
+        },
         getAddress() {
             const address = sessionStorage.getItem('address');
             if (address === null) {
                 return null
             }
             else {
-                return address 
+                return address
             }
         },
         calculateTotalPrice() {
@@ -122,7 +129,7 @@ export default {
             if (address === null) {
                 this.errorText = 'Вы не выбрали адрес';
                 return
-            } 
+            }
 
             const currentDate = new Date();
 
@@ -133,7 +140,7 @@ export default {
             }
             else {
                 console.log('set order error ' + response.response)
-            } 
+            }
         }
     },
     data() {
@@ -141,7 +148,8 @@ export default {
             items: [],
             totalPrice: 0,
             basketEmpty: true,
-            errorText: ''
+            errorText: '',
+            showAddressModal: false
         };
     },
     created() {
