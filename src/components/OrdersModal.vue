@@ -53,7 +53,7 @@ export default {
         },
         getOrders() {
             const token = localStorage.getItem('token')
-            axios.get(`https://localhost:7242/api/Orders/orders/${token}`)
+            axios.get(`http://localhost:7242/api/Orders/orders/${token}`)
                 .then(responce => {
                     this.orders = responce.data;
                 })

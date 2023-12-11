@@ -90,7 +90,7 @@ export default {
       this.showBasketNotification = false;
     },
     fetchDishes() {
-      axios.get('https://localhost:7242/api/Positions/positions')
+      axios.get('http://localhost:7242/api/Positions/positions')
         .then(responce => {
           this.foodItems = responce.data;
           console.log(this.foodItems);
@@ -98,9 +98,9 @@ export default {
         .catch(error => {
           console.error(error)
         });
-    },
+    }, 
     fetchRestaraunts() {
-      axios.get('https://localhost:7242/api/Restaraunts/restaraunts')
+      axios.get('http://localhost:7242/api/Restaraunts/restaraunts')
         .then(responce => {
           this.restaraunts = responce.data;
         })
@@ -109,7 +109,7 @@ export default {
         });
     },
     fetchCaterories() {
-      axios.get('https://localhost:7242/api/Categories/categories')
+      axios.get('http://localhost:7242/api/Categories/categories')
         .then(responce => {
           this.categories = responce.data;
         })
@@ -122,7 +122,7 @@ export default {
         this.fetchDishes();
       }
       else {
-        axios.get(`https://localhost:7242/api/Positions/positions/restaraunts/${selectedRestaraunt}`)
+        axios.get(`http://localhost:7242/api/Positions/positions/restaraunts/${selectedRestaraunt}`)
           .then(response => {
             this.foodItems = response.data;
           })
@@ -136,7 +136,7 @@ export default {
         this.fetchDishes();
       }
       else {
-        axios.get(`https://localhost:7242/api/Positions/positions/categories/${selectedCategory}`)
+        axios.get(`http://localhost:7242/api/Positions/positions/categories/${selectedCategory}`)
           .then(response => {
             this.foodItems = response.data;
           })
@@ -154,7 +154,7 @@ export default {
       this.searchQuery = query;
 
       // Выполните запрос на сервер с использованием нового поискового запроса
-      axios.get(`https://localhost:7242/api/Positions/positions/name/${query}`)
+      axios.get(`http://localhost:7242/api/Positions/positions/name/${query}`)
         .then(response => {
           this.foodItems = response.data;
         })

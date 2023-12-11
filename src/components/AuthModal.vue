@@ -67,7 +67,7 @@ export default {
       this.user.login = this.username
       this.user.password = this.password
       try {
-        const response = await axios.post(`https://localhost:7242/api/Authorization/Registration`, this.user);
+        const response = await axios.post(`http://localhost:7242/api/Authorization/Registration`, this.user);
         if (response.status !== 200) {
           console.log("registration error")
         }
@@ -92,7 +92,7 @@ export default {
     },
     async login() {
       try {
-        const response = await axios.get(`https://localhost:7242/api/Authorization/SignIn/${this.username}/${this.password}`);
+        const response = await axios.get(`http://localhost:7242/api/Authorization/SignIn/${this.username}/${this.password}`);
         // Проверка успешной аутентификации на бэкэнде
         if (response.data && response.data.token) {
           // Сохранение токена в localStorage или другом хранилище

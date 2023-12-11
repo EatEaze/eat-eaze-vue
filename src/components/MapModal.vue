@@ -58,7 +58,7 @@ export default {
             this.closeModal();
         },
         getAvailableCities() {
-            axios.get(`https://localhost:7242/api/City/cities`)
+            axios.get(`http://localhost:7242/api/City/cities`)
                 .then(response => {
                     this.cities = response.data;
                 })
@@ -99,7 +99,7 @@ export default {
                 this.marker.setLngLat([lng, lat]);
                 // Ваш код для обработки выбранного адреса
 
-                const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${this.opencageApiKey}`;
+                const url = `http://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${this.opencageApiKey}`;
                 try {
                     const response = await fetch(url);
                     const data = await response.json();

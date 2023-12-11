@@ -43,7 +43,7 @@ export default {
         fetchRestarauntsByCategory(categoryId) {
             this.isCategorySelected = true
             
-            axios.get(`https://localhost:7242/api/Restaraunts/restaraunts/category/${categoryId}`)
+            axios.get(`http://localhost:7242/api/Restaraunts/restaraunts/category/${categoryId}`)
                 .then(response => {
                     this.restaurants = response.data;
                     console.log(this.restaurants)

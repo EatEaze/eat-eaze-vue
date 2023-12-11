@@ -62,7 +62,7 @@ export default {
         async removeItem(item) {
             const token = localStorage.getItem('token')
             try {
-                const response = await axios.delete(`https://localhost:7242/api/Basket/Basket/delete/${token}/${item.item.positionId}`)
+                const response = await axios.delete(`http://localhost:7242/api/Basket/Basket/delete/${token}/${item.item.positionId}`)
                 if (response.status === 200) {
                     this.getBasketItems()
                 }
@@ -77,7 +77,7 @@ export default {
         async increment(item) {
             const token = localStorage.getItem('token')
             try {
-                const response = await axios.post(`https://localhost:7242/api/Basket/Basket/add/${token}/${item.item.positionId}/1`)
+                const response = await axios.post(`http://localhost:7242/api/Basket/Basket/add/${token}/${item.item.positionId}/1`)
                 if (response.status === 200) {
                     this.getBasketItems()
                 }
@@ -96,7 +96,7 @@ export default {
             }
             else {
                 try {
-                    const response = await axios.put(`https://localhost:7242/api/Basket/basket/decrement/${token}/${item.item.positionId}`)
+                    const response = await axios.put(`http://localhost:7242/api/Basket/basket/decrement/${token}/${item.item.positionId}`)
                     if (response.status === 200) {
                         this.getBasketItems()
                     }
@@ -112,7 +112,7 @@ export default {
         getBasketItems() {
             const token = localStorage.getItem('token')
             //console.log(token)
-            axios.get(`https://localhost:7242/api/Basket/basket/${token}`)
+            axios.get(`http://localhost:7242/api/Basket/basket/${token}`)
                 .then(response => {
                     this.items = response.data.itemsInBasket;
                 })
@@ -133,7 +133,7 @@ export default {
 
             const currentDate = new Date();
 
-            const response = await axios.put(`https://localhost:7242/api/Orders/orders/setOrder/${token}/${address}/${currentDate.toISOString()}`)
+            const response = await axios.put(`http://localhost:7242/api/Orders/orders/setOrder/${token}/${address}/${currentDate.toISOString()}`)
             if (response.data) {
                 this.items = []
                 this.close()

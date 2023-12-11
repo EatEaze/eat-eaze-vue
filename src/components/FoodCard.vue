@@ -54,7 +54,7 @@ export default {
         //this.$emit('showErrorModal', true, "Для добавления в корзину необходимо авторизоваться.");
       } else {
         try {
-          const response = await axios.post(`https://localhost:7242/api/Basket/Basket/add/${token}/${positionId}`)
+          const response = await axios.post(`http://localhost:7242/api/Basket/Basket/add/${token}/${positionId}`)
           if (response.status === 200) {
             this.$emitter.emit('addedToCart')
           }
